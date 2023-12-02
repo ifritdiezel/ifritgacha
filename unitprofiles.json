@@ -18,5 +18,11 @@
     "title":"testunit6",
     "rarity":6,
     "desc":"test unit of rarity 6"
+  },
+    "testunitlimited4":{
+    "title":"testunitlimited4",
+    "rarity":4,
+    "desc":"test limited unit of rarity 4",
+    "limited":true
   }
 }
