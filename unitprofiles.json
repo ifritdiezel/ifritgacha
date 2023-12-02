@@ -1,0 +1,22 @@
+{
+  "testunit3":{
+    "title":"testunit3",
+    "rarity":3,
+    "desc":"test unit of rarity 3"
+  },
+    "testunit4":{
+    "title":"testunit4",
+    "rarity":4,
+    "desc":"test unit of rarity 4"
+  },
+    "testunit5":{
+    "title":"testunit5",
+    "rarity":5,
+    "desc":"test unit of rarity 5"
+  },
+    "testunit6":{
+    "title":"testunit6",
+    "rarity":6,
+    "desc":"test unit of rarity 6"
+  }
+}
