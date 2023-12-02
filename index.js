@@ -1,6 +1,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const unitProfiles = require('./unitprofiles.json')
+const config = require("./config.json");
+
+if (!(config.token && config.clientId && config.guildId && config.ownerId)){
+	console.log("you have to fill out all config fields first");
+	process.exit();
+}
 
 let unitGroups = JSON.parse(fs.readFileSync(path.resolve(__dirname, "./units.json"), 'utf8', function (err, data) {
 	if (err) {
@@ -23,7 +29,6 @@ fs.writeFileSync('units.json', newData, err => {
 
 
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const config = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
