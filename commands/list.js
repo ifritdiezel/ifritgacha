@@ -7,20 +7,25 @@ const fs = require('fs');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('list')
-		.setDescription('view all your units'),
+		.setDescription('view all your units')
+		.addUserOption(option =>
+			option.setName('target')
+			.setDescription('the member whose list to check')
+			.setRequired(false)),
 	async execute(interaction) {
 		let stats = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../stats.json"), 'utf8', function (err, data) {
 			if (err) {
 				return;
 			};
 		}))
-		let user = interaction.member.id;
+		target = interaction.options.getUser('target');
+		const targetid = target ? target.id : interaction.member.id;
 
-		if (stats[user] == null || Object.keys(stats[user]["units"]).length == 0)	await interaction.reply({ content: "you don't have any units"});
+		if (stats[targetid] == null || Object.keys(stats[targetid]["units"]).length == 0)	await interaction.reply({ content: target ? (target.username + "doesn't have any units") : "you don't have any units"});
 		else {
 
 
-			let resultEmbed = new EmbedBuilder().setTitle(`your units (${stats[user]["totalpulled"]} total):`).setFooter({text: `balance: ${stats[user]["crystals"]} crystals`});
+			let resultEmbed = new EmbedBuilder().setTitle(`${target ? target.username+"'s" : "your"} units (${stats[targetid]["totalpulled"]} total):`).setFooter({text: `balance: ${stats[targetid]["crystals"]} crystals`});
 			let maxRarity = 0;
 
 			let unitsByRarity = {
@@ -34,15 +39,15 @@ module.exports = {
 				"6starstotal": 0,
 			}
 
-			for (unit of Object.keys(stats[user]["units"])){
+			for (unit of Object.keys(stats[targetid]["units"])){
 
 				if (unitProfiles[unit].rarity > maxRarity) {
 					maxRarity = unitProfiles[unit].rarity ;
 					resultEmbed.setColor([0xeeeeee, 0x92bcce, 0x84cc57, 0xf9bd22][unitProfiles[unit].rarity -3]);
 				}
 
-				unitsByRarity[unitProfiles[unit].rarity + "stars"].push( unitProfiles[unit].title + ((stats[user]["units"][unit] > 1) ? (" `x"+ stats[user]["units"][unit]) + '`' : ""));
-				unitsByRarity[unitProfiles[unit].rarity + "starstotal"] += stats[user]["units"][unit];
+				unitsByRarity[unitProfiles[unit].rarity + "stars"].push( unitProfiles[unit].title + ((stats[targetid]["units"][unit] > 1) ? (" `x"+ stats[targetid]["units"][unit]) + '`' : ""));
+				unitsByRarity[unitProfiles[unit].rarity + "starstotal"] += stats[targetid]["units"][unit];
 			};
 
 			for (i=3; i<=6; i++){

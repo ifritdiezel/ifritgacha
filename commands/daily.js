@@ -13,7 +13,7 @@ module.exports = {
 				return;
 			};
 		}))
-		
+
 		let user = interaction.member.id;
 
 		if (stats[user] == null) stats[user]={"crystals":50, "units":{}, "lastdaily":0};
@@ -32,7 +32,7 @@ module.exports = {
 		});
 
 
-		await interaction.reply({ content: `claimed 30 crystals, balance: ${stats[user]["crystals"]} crystals. don't forget to /gift too`});
+		await interaction.reply({ content: `claimed 30 crystals, balance: ${stats[user]["crystals"]} crystals. ${+new Date - stats[user]["lastgifted"] > 22 * 60 * 60 * 1000 ? "your /gift is ready too" : ""}`});
 
 	},
 };
